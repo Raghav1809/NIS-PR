@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <style>
-      :root {
-    --primary-color: #6c63ff;
+       :root {
+        --primary-color: #6c63ff;
     --secondary-color: #4d44b5;
     --accent-color: #ff6584;
     --light-color: #f8f9fa;
@@ -17,8 +17,9 @@
     --success-color: #2ecc71;
     --warning-color: #f39c12;
     --danger-color: #e74c3c;
-}
+      }
 
+      
 body {
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
@@ -1057,6 +1058,143 @@ body {
                 left: 6px;
             }
         }
+      /* Tutorial Section Styling */
+      .cipher-visualization {
+          margin-top: 30px;
+          padding: 20px;
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 15px;
+          backdrop-filter: blur(5px);
+          min-height: 150px;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          align-items: center;
+          gap: 15px;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      
+      .letter-transform {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin: 0 5px 20px;
+          padding: 15px;
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 10px;
+          min-width: 80px;
+          transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          position: relative;
+          overflow: hidden;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      
+      .letter-transform:hover {
+          transform: translateY(-10px) scale(1.05);
+          background: rgba(255, 255, 255, 0.2);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+          z-index: 2;
+      }
+      
+      .letter-transform::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 3px;
+          background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.5s ease;
+      }
+      
+      .letter-transform:hover::before {
+          transform: scaleX(1);
+      }
+      
+      .original-letter, .encrypted-letter {
+          font-size: 2rem;
+          font-weight: 700;
+          margin: 5px 0;
+          transition: all 0.3s ease;
+      }
+      
+      .original-letter {
+          color: white;
+      }
+      
+      .encrypted-letter {
+          color: var(--accent-color);
+      }
+      
+      .letter-transform:hover .original-letter {
+          transform: translateY(-5px);
+      }
+      
+      .letter-transform:hover .encrypted-letter {
+          transform: translateY(5px);
+      }
+      
+      .arrow {
+          color: var(--accent-color);
+          font-size: 1.5rem;
+          margin: 5px 0;
+          transition: all 0.3s ease;
+      }
+      
+      .letter-transform:hover .arrow {
+          transform: scale(1.2);
+          color: white;
+      }
+      
+      .letter-position {
+          font-size: 0.8rem;
+          color: rgba(255, 255, 255, 0.7);
+          margin-top: 5px;
+          transition: all 0.3s ease;
+      }
+      
+      .letter-transform:hover .letter-position {
+          color: white;
+      }
+      
+      .explanation-step {
+          margin-bottom: 15px;
+          padding-left: 20px;
+          border-left: 3px solid var(--accent-color);
+          animation: fadeIn 0.5s ease-out;
+      }
+      
+      .explanation-step strong {
+          color: var(--accent-color);
+      }
+      
+      .explanation-formula {
+          background: rgba(0, 0, 0, 0.2);
+          padding: 10px 15px;
+          border-radius: 8px;
+          margin: 10px 0;
+          display: inline-block;
+          font-family: monospace;
+          font-size: 1.1rem;
+      }
+      
+      .highlight {
+          color: var(--accent-color);
+          font-weight: bold;
+          animation: pulse 2s infinite;
+      }
+      
+      @keyframes charAnimation {
+          0% { transform: translateY(0) scale(1); }
+          50% { transform: translateY(-15px) scale(1.2); }
+          100% { transform: translateY(0) scale(1); }
+      }
+      
+      .animate-char {
+          animation: charAnimation 0.5s ease-out;
+      }
     </style>
 </head>
 <body>
@@ -1166,8 +1304,59 @@ body {
         </div>
     </section>
 
-    <!-- Add this section at the end of your webpage, before the closing body tag -->
-    
+    <!-- Add this after the cipher section and before the assets section -->
+        <section id="tutorial" class="py-5 fade-in">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto text-center mb-5">
+                        <h2 class="section-title mb-4">Interactive Tutorial</h2>
+                        <div class="title-underline"></div>
+                        <p class="lead">See how the Caesar Cipher works with your own examples. Enter a letter or word and see the transformation in real-time.</p>
+                    </div>
+                </div>
+                
+                <div class="cipher-section">
+                    <div class="row">
+                        <div class="col-lg-6 mb-4">
+                            <div class="form-group">
+                                <label for="tutorialInput" class="form-label">
+                                    <i class="fas fa-keyboard"></i>Enter a letter or word
+                                </label>
+                                <input type="text" class="form-control" id="tutorialInput" placeholder="e.g. HELLO" maxlength="15">
+                            </div>
+                            
+                            <div class="form-group mt-4">
+                                <label for="tutorialShift" class="form-label">
+                                    <i class="fas fa-exchange-alt"></i>Shift Value
+                                </label>
+                                <input type="range" class="shift-slider" id="tutorialShift" min="1" max="25" value="3">
+                                <div class="shift-value" id="tutorialShiftDisplay">3</div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6">
+                            <div class="cipher-card h-100">
+                                <div class="cipher-card-header">
+                                    <i class="fas fa-chalkboard-teacher"></i>Step-by-Step Explanation
+                                </div>
+                                <div class="cipher-card-body" id="tutorialExplanation">
+                                    <p class="text-muted">Enter a letter or word to see the encryption process explained step by step.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="cipher-visualization" id="cipherVisualization">
+                                <!-- Visualization will be added here by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     <section id="assets-section" class="py-5 fade-in">
         <div class="container">
             <div class="row">
@@ -1303,49 +1492,134 @@ body {
 
     <!-- Add this JavaScript at the end of your file -->
     <script>
-        // Add this to your existing JavaScript
+        // Add this to your existing JavaScript code, before the closing script tag
         
-        // Animation for asset cards
+        // Tutorial functionality
         document.addEventListener('DOMContentLoaded', function() {
-            const assetCards = document.querySelectorAll('.asset-type-card');
+            const tutorialInput = document.getElementById('tutorialInput');
+            const tutorialShift = document.getElementById('tutorialShift');
+            const tutorialShiftDisplay = document.getElementById('tutorialShiftDisplay');
+            const tutorialExplanation = document.getElementById('tutorialExplanation');
+            const cipherVisualization = document.getElementById('cipherVisualization');
             
-            assetCards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    const icon = this.querySelector('.asset-icon i');
-                    icon.classList.add('fa-beat');
-                    
-                    setTimeout(() => {
-                        icon.classList.remove('fa-beat');
-                    }, 1000);
-                });
+            // Update shift value display
+            tutorialShift.addEventListener('input', function() {
+                tutorialShiftDisplay.textContent = this.value;
+                updateTutorial();
             });
             
-            // Intersection Observer for animations
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate__animated', 'animate__fadeIn');
-                        observer.unobserve(entry.target);
+            // Update tutorial on input change
+            tutorialInput.addEventListener('input', updateTutorial);
+            
+            function updateTutorial() {
+                const input = tutorialInput.value.toUpperCase();
+                const shift = parseInt(tutorialShift.value);
+                
+                if (!input) {
+                    tutorialExplanation.innerHTML = '<p class="text-muted">Enter a letter or word to see the encryption process explained step by step.</p>';
+                    cipherVisualization.innerHTML = '';
+                    return;
+                }
+                
+                // Generate explanation
+                let explanation = '<h5>Encryption Process:</h5>';
+                let visualization = '';
+                
+                for (let i = 0; i < input.length; i++) {
+                    const char = input[i];
+                    const code = char.charCodeAt(0);
+                    
+                    // Only process letters
+                    if ((code >= 65 && code <= 90) || (code >= 97 && code <= 122)) {
+                        const isUpperCase = code >= 65 && code <= 90;
+                        const baseCode = isUpperCase ? 65 : 97;
+                        
+                        // Original position in alphabet (0-25)
+                        const originalPos = code - baseCode;
+                        
+                        // New position after shift
+                        const newPos = (originalPos + shift) % 26;
+                        
+                        // New character
+                        const newChar = String.fromCharCode(newPos + baseCode);
+                        
+                        // Add to explanation
+                        explanation += `
+                            <div class="explanation-step">
+                                <p><strong>${char}</strong> is at position ${originalPos} in the alphabet (where A=0, B=1, etc.)</p>
+                                <p>Add shift of ${shift}: ${originalPos} + ${shift} = ${originalPos + shift}</p>
+                                <p>Take modulo 26: (${originalPos + shift}) % 26 = ${newPos}</p>
+                                <p>New letter at position ${newPos}: <strong>${newChar}</strong></p>
+                                <div class="explanation-formula">
+                                    E(${originalPos}) = (${originalPos} + ${shift}) % 26 = ${newPos}
+                                </div>
+                            </div>
+                        `;
+                        
+                        // Add to visualization
+                        visualization += `
+                            <div class="letter-transform" data-char="${char}">
+                                <div class="original-letter">${char}</div>
+                                <div class="arrow"><i class="fas fa-arrow-down"></i></div>
+                                <div class="encrypted-letter">${newChar}</div>
+                                <div class="letter-position">Position: ${originalPos} → ${newPos}</div>
+                            </div>
+                        `;
+                    } else {
+                        // Non-letter character
+                        explanation += `
+                            <div class="explanation-step">
+                                <p><strong>${char}</strong> is not a letter, so it remains unchanged.</p>
+                            </div>
+                        `;
+                        
+                        visualization += `
+                            <div class="letter-transform" data-char="${char}">
+                                <div class="original-letter">${char}</div>
+                                <div class="arrow"><i class="fas fa-equals"></i></div>
+                                <div class="encrypted-letter">${char}</div>
+                                <div class="letter-position">Unchanged</div>
+                            </div>
+                        `;
                     }
-                });
-            }, { threshold: 0.2 });
+                }
+                
+                // Update the DOM
+                tutorialExplanation.innerHTML = explanation;
+                cipherVisualization.innerHTML = visualization;
+                
+                // Add animation to the letters
+                setTimeout(() => {
+                    const letterElements = document.querySelectorAll('.letter-transform');
+                    letterElements.forEach((el, index) => {
+                        setTimeout(() => {
+                            el.classList.add('animate-char');
+                            setTimeout(() => {
+                                el.classList.remove('animate-char');
+                            }, 500);
+                        }, index * 100);
+                    });
+                }, 100);
+            }
             
-            // Observe all sections and cards
-            document.querySelectorAll('#assets-section .row').forEach(item => {
-                observer.observe(item);
-            });
-            
-            // Add interactive elements to timeline
-            const timelineItems = document.querySelectorAll('.timeline-item');
-            timelineItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    const shield = this.querySelector('.protection-shield i');
-                    shield.classList.add('fa-bounce');
+            // Add click event to letter transforms for additional interaction
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.letter-transform')) {
+                    const letterBox = e.target.closest('.letter-transform');
+                    const char = letterBox.getAttribute('data-char');
                     
-                    setTimeout(() => {
-                        shield.classList.remove('fa-bounce');
-                    }, 1000);
-                });
+                    // Highlight the corresponding explanation
+                    const explanationSteps = document.querySelectorAll('.explanation-step');
+                    explanationSteps.forEach(step => {
+                        step.classList.remove('highlight');
+                    });
+                    
+                    const index = Array.from(letterBox.parentNode.children).indexOf(letterBox);
+                    if (explanationSteps[index]) {
+                        explanationSteps[index].classList.add('highlight');
+                        explanationSteps[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
             });
         });
     </script>
@@ -1630,3 +1904,5 @@ body {
     </script>
 </body>
 </html>
+
+   
